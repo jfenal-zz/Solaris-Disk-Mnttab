@@ -9,8 +9,9 @@ WriteMakefile(
                             Solaris/Disk/Mnttab
                         )
                     },
-    VERSION      => '0.01',
+    VERSION_FROM => 'lib/Solaris/Disk/Mnttab.pm',
 #   EXE_FILES    => [ ],
+    PL_FILES     => {},
     AUTHOR       => 'Jérôme Fenal <jfenal@free.fr>',
     ABSTRACT     => 'Module to read Solaris /etc/mnttab',
     clean        => {FILES => '*/*/*~'},

@@ -9,7 +9,7 @@ use Carp;
 #our %EXPORT_TAGS = ( 'all' => [ qw( PartType PartFlag ) ] );
 #our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 my $mnttabSource = '/etc/mnttab';
 my $swaptabSource = '/sbin/swap -l |';
 
@@ -17,7 +17,7 @@ my @validfs = qw( ufs vxfs proc tmpfs );
 
 =head1 NAME
 
-Solaris::Disk::Mnttab
+Solaris::Disk::Mnttab - Read Solaris list of mounted devices
 
 =head1 SYNOPSIS
 
@@ -145,7 +145,7 @@ sub readmtab
             foreach (keys %options) {
                 delete($options{$_}) if $_ eq '';
             }
-            @{$self->{mp2dev}{$mp}{options}} = keys %options;
+            @{$self->{mp2dev}{$mp}{options}} = sort keys %options;
             $self->{mp2dev}{$mp}{inode}   = $inode;
             $self->{mp2dev}{$mp}{fstype}  = $fstype;
         }

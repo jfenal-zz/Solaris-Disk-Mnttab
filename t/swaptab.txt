@@ -1,0 +1,3 @@
+swapfile             dev  swaplo blocks   free
+/dev/dsk/c0t0d0s1   32,1      16 2624560 2624560
+/dev/dsk/c0t8d0s1   32,57     16 2624560 2624560 

@@ -1,0 +1,14 @@
+Build.PL
+MANIFEST
+lib/Solaris/Disk/Mnttab.pm
+README
+Makefile.PL
+INSTALL
+META.yml
+t/00basic.t
+t/02pod-coverage.t
+t/01pod.t
+t/10read.t
+t/mnttab.txt
+t/swaptab.txt
+t/vtoc.txt

@@ -1,0 +1,5 @@
+/dev/dsk/c0t3d0s0         /       ufs     rw,suid 693186371
+/dev/dsk/c0t1d0s6         /usr    ufs     rw,suid 693186371
+/proc   /proc   proc      rw,suid 693186371
+swap    /tmp    tmpfs     ,dev=0 693186373
+bigriver:/export/home/bigriver  /tmp_mnt/home/bigriver  nfs rw,dev=21c0005 693186673

@@ -1,0 +1,28 @@
+* /dev/dsk/c0t6d0s2 partition map 
+* 
+* Dimensions: 
+* 512 bytes/sector 
+* 640 sectors/track
+* 1 tracks/cylinder 
+* 640 sectors/cylinder
+* 2048 cylinders 
+* 2048 accessible cylinders 
+* 
+* Flags: 
+* 1: unmountable 
+* 10: read-only 
+* 
+* Unallocated space: 
+* First Sector Last 
+* Sector Count Sector 
+* 1088000 3200 1091199 
+* 1100800 209920 1310719 
+* 
+* First Sector Last 
+* Partition Tag Flags Sector Count Sector Mount Directory
+0 4 10 0 984960 984959
+1 2 10 984960 103040 1087999
+2 0 00 1088000 3200 1091199
+3 0 00 1091200 3200 1094399
+4 0 00 1094400 3200 1097599
+5 0 00 1097600 3200 1100799

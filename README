@@ -1,0 +1,5 @@
+Readme for Solaris::Disk::Partitions
+------------------------------------
+
+Solaris::Disk::Partitions aims to provide methods to read Solaris disks
+partitions (aka slices).

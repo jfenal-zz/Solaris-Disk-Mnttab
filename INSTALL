@@ -1,0 +1,27 @@
+Installing Solaris::Disk::Partitions
+====================================
+
+
+Solaris::Disk::Partitions aims to provide methods to read Solaris disks
+partitions (aka slices).
+
+To install the module, simply run the following commands
+(where x.xx is the current script version):
+
+    $ tar xvzf Solaris-Disk-Partitions-x.xx.tar.gz
+    $ cd Solaris-Disk-Partitions-x.xx
+    $ perl Makefile.PL
+
+and as root:
+
+    # make install
+
+If you are used to the CPAN way of doing things, the procedure is the
+same as always:
+
+    $ perl Makefile.PL
+    $ make
+    $ make test
+    # make install
+
+To run the tests, you just need Solaris::Disk::Partitions.

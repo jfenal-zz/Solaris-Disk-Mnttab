@@ -9,11 +9,11 @@ WriteMakefile(
                             Solaris/Disk/Mnttab
                         )
                     },
-    VERSION_FROM => 'lib/Solaris/Disk/Mnttab.pm',
+    VERSION      => '0.03',
 #   EXE_FILES    => [ ],
     PL_FILES     => {},
     AUTHOR       => 'Jérôme Fenal <jfenal@free.fr>',
-    ABSTRACT     => 'Module to read Solaris /etc/mnttab',
+    ABSTRACT     => 'Read Solaris list of mounted devices',
     clean        => {FILES => '*/*/*~'},
     dist         => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
 );

@@ -3,3 +3,4 @@
 /proc   /proc   proc      rw,suid 693186371
 swap    /tmp    tmpfs     ,dev=0 693186373
 bigriver:/export/home/bigriver  /tmp_mnt/home/bigriver  nfs rw,dev=21c0005 693186673
+plaingaresdfj zsjofsdf  sdlfhqsfm dfg dfg dfg 

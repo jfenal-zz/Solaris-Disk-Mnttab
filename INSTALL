@@ -24,4 +24,13 @@ same as always:
     $ make test
     # make install
 
+At your option, you may use the Build system which doesn't require the make(1)
+utility:
+
+    $ perl Build.PL
+    $ perl Build
+    $ perl Build test
+    $ su
+    # perl Build install
+
 To run the tests, you just need Solaris::Disk::Partitions.

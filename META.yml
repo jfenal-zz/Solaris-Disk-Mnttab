@@ -1,8 +1,16 @@
 --- #YAML:1.0
 name: Solaris-Disk-Mnttab
-version: 0.02
+version: 0.03
 author:
   - Jérôme Fenal <jfenal@free.fr>
 abstract: Read Solaris list of mounted devices
 license: perl
-generated_by: Module::Build version 0.25, without YAML.pm
+requires:
+  perl: 5.6.1
+recommends:
+  Test::More: 0
+provides:
+  Solaris::Disk::Mnttab:
+    file: lib/Solaris/Disk/Mnttab.pm
+    version: 0.03
+generated_by: Module::Build version 0.26

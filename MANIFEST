@@ -1,5 +1,6 @@
 Build.PL
 MANIFEST
+Changes
 lib/Solaris/Disk/Mnttab.pm
 README
 Makefile.PL
@@ -8,6 +9,7 @@ META.yml
 t/00basic.t
 t/02pod-coverage.t
 t/01pod.t
+t/05half-calls.t
 t/10read.t
 t/mnttab.txt
 t/swaptab.txt

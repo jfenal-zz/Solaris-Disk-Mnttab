@@ -27,6 +27,13 @@ is_deeply(
     bless(
         {
             'swap' => {
+                '/dev/garbage1' => {
+                    'free'    => '2624560',
+                    'device'  => '/dev/garbage1',
+                    'swaplo'  => '16',
+                    'devnum'  => '32,57',
+                    'swaplen' => '2624560'
+                },
                 'c0t8d0s1' => {
                     'free'    => '2624560',
                     'device'  => 'c0t8d0s1',

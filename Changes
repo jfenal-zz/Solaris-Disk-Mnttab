@@ -1,0 +1,12 @@
+Revision history for Solaris-Disk-Mnttab
+
+0.01	September 1st, 2004
+	First release.
+
+0.02	September 6th, 2004
+	Tests introduced.
+	Module::Build support
+
+0.03	March 3rd, 2005
+	Version number now correct, more tests in the test suite.
+	Coverage at 97.2% with Devel::Cover.

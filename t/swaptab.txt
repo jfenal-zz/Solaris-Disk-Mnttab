@@ -1,3 +1,24 @@
 swapfile             dev  swaplo blocks   free
 /dev/dsk/c0t0d0s1   32,1      16 2624560 2624560
 /dev/dsk/c0t8d0s1   32,57     16 2624560 2624560 
+/garbage	
+/dev/garbage1	32,57     16 2624560 2624560
+/dev/garbage2	32,57     16 2624560
+/dev/garbage3	32,57     16
+/dev/garbage4	32,57
+/dev/garbage5	32,
+/dev/garbage6	32
+/dev/garbage7	32
+/dev/garbage8	32
+garbage1	32,57     16 2624560 2624560
+garbage2	32,57     16 2624560
+garbage3	32,57     16
+garbage4	32,57
+garbage5	32,
+garbage6	32
+garbage7	32
+garbage8
+* 
+*
+ 
+

@@ -1,5 +1,5 @@
-Readme for Solaris::Disk::Partitions
-------------------------------------
+Readme for Solaris::Disk::Mnttab
+--------------------------------
 
-Solaris::Disk::Partitions aims to provide methods to read Solaris disks
-partitions (aka slices).
+Solaris::Disk::Mnttab aims to provide methods to read
+Solaris mounted devices (file systems and swap devices).

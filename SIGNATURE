@@ -1,0 +1,39 @@
+This file contains message digests of all files listed in MANIFEST,
+signed via the Module::Signature module, version 0.55.
+
+To verify the content in this distribution, first make sure you have
+Module::Signature installed, then type:
+
+    % cpansign -v
+
+It will check each file's integrity, as well as the signature's
+validity.  If "==> Signature verified OK! <==" is not displayed,
+the distribution may already have been compromised, and you should
+not run its Makefile.PL or Build.PL.
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+SHA1 cdd16f9b4ef8a14a50a1b09accd293cb2faa94d5 Build.PL
+SHA1 8ee46884e6f3c93fae394b201c49dc3a53a03cc0 Changes
+SHA1 812f6f8dc1f52f2ad6ebf11ec4236a6afb1c6f9d INSTALL
+SHA1 0b0ce37fec82046af9e32baa58f3faee4ed46bf1 MANIFEST
+SHA1 31d11b1f161e98218ab978af4ce90e4bc8e51a73 META.yml
+SHA1 cdea114ac8d40745125bca3acc9e829eb7d7eba9 Makefile.PL
+SHA1 e7fed60da1a5a1cd6c3ae74b61396c44dc75851e README
+SHA1 331789d12a4e60662cbc99a1c1b3aca74cf9ae00 lib/Solaris/Disk/Mnttab.pm
+SHA1 b555c009f17f061b02f219f46dbd968090887caa t/00basic.t
+SHA1 be6bd1785892c0c66d07fd1dfa6fe89e3af635aa t/01pod.t
+SHA1 6da39b48ce64b584e4c3274bff96fc76ff484820 t/02pod-coverage.t
+SHA1 66df1af65873b8b65cb51c84ae1b54da0757143e t/05half-calls.t
+SHA1 eeda1d8ba844a710577f061053bb87b42aad49c6 t/10read.t
+SHA1 e4e203d22af9965eaf43861b8a912bde34064c79 t/mnttab.txt
+SHA1 badee2e6b165b526b16f4fef86f6a0bee50de099 t/swaptab.txt
+SHA1 b4bacad85a7f2209039296e0e4bd104b1c3cbc20 t/vtoc.txt
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.10 (GNU/Linux)
+
+iEYEARECAAYFAkuKc1EACgkQso0vRgzhYTkYYwCeLz9XF28s6ljqFp6CV9nAoy8/
+InsAn0J+aX7/5M1flndEWNMjsgBYFV8V
+=XJmu
+-----END PGP SIGNATURE-----

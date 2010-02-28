@@ -10,7 +10,7 @@ use strict;
 use Test::More;
 use lib qw( ./lib ../lib );
 
-plan tests => 17;
+BEGIN { plan tests => 18; }
 
 BEGIN { use_ok('Solaris::Disk::Mnttab'); }
 require_ok('Solaris::Disk::Mnttab');
@@ -98,9 +98,9 @@ $mnttab = Solaris::Disk::Mnttab->new(
 ok( defined($mnttab), "all parms, init" );
 
 my $mnttab2 = $mnttab->new(
-        mnttab  => "t/swaptab.txt",
-        swaptab => "t/swaptab.txt",
-        init    => 1,
+    mnttab  => "t/swaptab.txt",
+    swaptab => "t/swaptab.txt",
+    init    => 1,
 );
 ok( $mnttab, "all parms as hashref, init" );
 

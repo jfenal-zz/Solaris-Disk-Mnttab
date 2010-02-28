@@ -10,9 +10,9 @@ use Carp;
 #our %EXPORT_TAGS = ( 'all' => [ qw( PartType PartFlag ) ] );
 #our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 
-our $VERSION = "0.03";
-my $mnttabSource  = '/etc/mnttab';
-my $swaptabSource = '/sbin/swap -l |';
+our $VERSION = '0.04';
+my $mnttabsource  = '/etc/mnttab';
+my $swaptabsource = '/sbin/swap -l |';
 
 my @validfs = qw( ufs vxfs proc tmpfs );
 
@@ -24,7 +24,7 @@ Solaris::Disk::Mnttab - Read Solaris list of mounted devices
 
   use Solaris::Disk::Mnttab;
 
-  $mnttab = Solaris::Disk::Mnttab::new(%options);
+  $mnttab = Solaris::Disk::Mnttab->new(%options);
 
 =head1 DESCRIPTION
 
@@ -33,7 +33,7 @@ current mounted device table.
 
 Two tables are read: F</etc/mnttab> and the result of C<`swap -l`>.
 
-=head1 METHODS
+=head1 SUBROUTINES/METHODS
 
 =head2 C<new>
 
@@ -60,11 +60,11 @@ sub new {
 
     my %parms;
     my $i = 0;
-    my $re = join "|", qw( init mnttab swaptab );
-    $re = qr/^(?:$re)$/;
+    my $re = join q(|), qw( init mnttab swaptab );
+    $re = qr{ \A (?:$re) \z }imxs;
     while ( $i < @args ) {
         if ( $args[$i] =~ $re ) {
-            my ( $k, $v ) = splice( @args, $i, 2 );
+            my ( $k, $v ) = splice @args, $i, 2;
             $parms{$k} = $v;
         }
         else {
@@ -73,18 +73,18 @@ sub new {
     }
 
     # shouldn't be anything left in @args
-    warn "Unknown parameter(s): @args" if @args;
+    carp "Unknown parameter(s): @args" if scalar @args;
 
     bless $self, $class;
 
     if ( defined $parms{init} && $parms{init} ) {
-        if ( defined( $parms{mnttab} ) ) {
+        if ( defined $parms{mnttab} ) {
             $self->readmtab( mnttab => $parms{mnttab} );
         }
         else {
             $self->readmtab();
         }
-        if ( defined( $parms{swaptab} ) ) {
+        if ( defined $parms{swaptab} ) {
             $self->readstab( swaptab => $parms{swaptab} );
         }
         else {
@@ -92,7 +92,7 @@ sub new {
         }
     }
 
-    $self;
+    return $self;
 }
 
 =head2 C<readmtab>
@@ -110,11 +110,11 @@ sub readmtab {
 
     my %parms;
     my $i = 0;
-    my $re = join "|", qw( mnttab );	# mnttabdir 
-    $re = qr/^(?:$re)$/;
+    my $re = join q(|), qw( mnttab );    # mnttabdir
+    $re = qr{ \A (?:$re) \z }imxs;
     while ( $i < @args ) {
         if ( $args[$i] =~ $re ) {
-            my ( $k, $v ) = splice( @args, $i, 2 );
+            my ( $k, $v ) = splice @args, $i, 2;
             $parms{$k} = $v;
         }
         else {
@@ -123,48 +123,48 @@ sub readmtab {
     }
 
     # shouldn't be anything left in @args
-    warn "Unknown parameter(s): @args" if @args;
+    carp "Unknown parameter(s): @args" if @args;
 
     # croak "You cannot specify both mnttab and mnttabdir parameters"
     #   if ( defined( $parms{mnttab} ) && defined( $parms{mnttabdir} ) );
 
-    my $source =
-        defined( $parms{mnttab} )    ? $parms{mnttab}
-#      : defined( $parms{mnttabdir} ) ? $parms{mnttabdir} . '/mnttab.txt'
-      : $mnttabSource;
+    my $source = defined $parms{mnttab} ? $parms{mnttab} : $mnttabsource;
 
-    if ( open MTAB, $source ) {
-        my $validfs = join '|', @validfs;
-        $validfs = qr/^(?:$validfs)$/;
-        while (<MTAB>) {
+    if ( open my $mtab, '<', $source ) {
+        my $validfs = join q(|), @validfs;
+        $validfs = qr{ \A (?:$validfs) \z }imxs;
+        while (<$mtab>) {
             chomp;
             my ( $dev, $mp, $fstype, $opts, $inode );
-            ( $dev, $mp, $fstype, $opts, $inode ) = split /\s+/;
-            next if !defined($mp);
-            next if !defined($fstype);
-            next if !defined($opts);
-            next if !defined($inode);
-
+            ( $dev, $mp, $fstype, $opts, $inode ) = split qr{ \s+ }imxs;
+            next if !defined $mp;
+            next if !defined $fstype;
+            next if !defined $opts;
+            next if !defined $inode;
 
             if ( $fstype =~ $validfs ) {
-                $dev =~ s!.*\/!!;
+                $dev =~ s{ \A .*\/ }{}imxs;
                 $self->{dev2mp}{$dev} = $mp;
                 $self->{mp2dev}{$mp}{device} = $dev;
-                my %options = map { $_ => 1 } split /,/, $opts;
+                my %options = map { $_ => 1 } split qr{ , }imxs, $opts;
                 foreach ( keys %options ) {
-                    delete( $options{$_} ) if $_ eq '';
+                    if ( $_ eq q{} ) {
+                        delete $options{$_};
+                    }
                 }
                 @{ $self->{mp2dev}{$mp}{options} } = sort keys %options;
                 $self->{mp2dev}{$mp}{inode}  = $inode;
                 $self->{mp2dev}{$mp}{fstype} = $fstype;
             }
         }
-        close MTAB
-          or warn "Can't close mnttab source $source";
+        close $mtab
+          or carp "Can't close mnttab source $source";
     }
     else {
-        warn "Can't open mnttab source $source";
+        carp "Can't open mnttab source $source";
     }
+
+    return;
 }
 
 =head2 C<readstab>
@@ -184,11 +184,11 @@ sub readstab {
 
     my %parms;
     my $i = 0;
-    my $re = join "|", qw( swaptab );	# swaptabdir 
-    $re = qr/^(?:$re)$/;
+    my $re = join q(|), qw( swaptab );    # swaptabdir
+    $re = qr{\A (?:$re) \z }imxs;
     while ( $i < @args ) {
         if ( $args[$i] =~ $re ) {
-            my ( $k, $v ) = splice( @args, $i, 2 );
+            my ( $k, $v ) = splice @args, $i, 2;
             $parms{$k} = $v;
         }
         else {
@@ -197,31 +197,32 @@ sub readstab {
     }
 
     # shouldn't be anything left in @args
-    warn "Unknown parameter(s): @args" if @args;
+    carp "Unknown parameter(s): @args" if @args;
 
-#    croak "You cannot specify both swaptab and swaptabdir parameters"
-#      if ( defined( $parms{swaptab} ) && defined( $parms{swaptabdir} ) );
+    #    croak "You cannot specify both swaptab and swaptabdir parameters"
+    #      if ( defined( $parms{swaptab} ) && defined( $parms{swaptabdir} ) );
 
-    my $source =
-        defined( $parms{swaptab} )    ? $parms{swaptab}
-#      : defined( $parms{swaptabdir} ) ? $parms{swaptabdir} . '/swaptab.txt'
-      : $swaptabSource;
+    my $source = defined( $parms{swaptab} ) ? $parms{swaptab} : $swaptabsource;
 
-    if ( ( -f "/sbin/swap" || $swaptabSource ne $source ) &&  open STAB, $source ) {
-        while (<STAB>) {
+    if ( ( -f '/sbin/swap' || $swaptabsource ne $source ) && open my $stab,
+        '<', $source )
+    {
+        while (<$stab>) {
             chomp;
-            my ( $dev, $devn, $slo, $sbl, $sfree ) = split /\s+/;
-            next if !defined($devn);
-            next if !defined($slo);
-            next if !defined($sbl);
-            next if !defined($sfree);
+            my ( $dev, $devn, $slo, $sbl, $sfree ) = split qr{ \s+
+            }imxs;
+            next if !defined $devn;
+            next if !defined $slo;
+            next if !defined $sbl;
+            next if !defined $sfree;
 
             # pass the header line
             next if $dev eq 'swapfile';
-            next if $dev !~ m!^/!;
+            next if $dev !~ m{ \A / }imxs;
+
             # strip path to device file
-            if ( $dev =~ m/dsk/ ) {
-                $dev =~ s!.*\/!!;
+            if ( $dev =~ m{ dsk }imxs ) {
+                $dev =~ s{ \A .* \/ }{}imxs;
                 $self->{dev2mp}{$dev} = 'swap';
 
                 # This is not really a mount point, so don't feed the reverse...
@@ -232,17 +233,41 @@ sub readstab {
             $self->{swap}{$dev}{swaplen} = $sbl;
             $self->{swap}{$dev}{free}    = $sfree;
         }
-        close STAB
-          or warn "Can't close from swap tab source : $source";
+        close $stab
+          or carp "Can't close from swap tab source : $source";
     }
     else {
-        warn "Can't open swap tab source : $source";
+        carp "Can't open swap tab source : $source";
     }
+
+    return;
 }
 
-'Solaris::Disk::Mnttab';
+1;
 
 __END__
+
+=head1 DIAGNOSTICS
+
+Could be also in the L<BUGS> sections. Heavy usage of C<carp>, so
+mainly a matter of looking at (non-blocking) error messages.
+
+=head1 CONFIGURATION AND ENVIRONMENT
+
+This module is supposed to run on Solaris, but it's been a long time
+I haven't had access to such a machine.
+
+=head1 DEPENDENCIES
+
+Solaris local file F</etc/mnttab> & command C</sbin/swap>.
+
+=head1 INCOMPATIBILITIES
+
+None known.
+
+=head1 BUGS AND LIMITATIONS
+
+See L<DIAGNOSTICS>.
 
 =head1 AUTHOR
 
@@ -250,12 +275,12 @@ Jérôme Fenal <jfenal@free.fr>
 
 =head1 VERSION
 
-This is version 0.03 of the Solaris::Disk::Mnttab
+This is version 0.04 of the Solaris::Disk::Mnttab
 
 
-=head1 COPYRIGHT
+=head1 LICENSE AND COPYRIGHT
 
-Copyright (C) 2004, 2005 Jérôme Fenal. All Rights Reserved
+Copyright (C) 2004, 2005, 2010 Jérôme Fenal. All Rights Reserved
 
 This module is free software; you can redistribute it and/or modify it under the
 same terms as Perl itself.
